@@ -1,0 +1,37 @@
+*{ margin: 0; padding: 0;}
+html{ font-size: 20px;}
+input,button{ border: 0; outline: none;}
+
+
+.clearfix:after{ content: ''; display: block;clear: both;}
+.fr{float:right}
+.fl{float:left}
+#header{
+    background: #fbb513;
+    padding: .277rem .512rem;
+}
+#header .header_bg_l{
+    width:.448rem;
+    height: .768rem;
+    background: #fff;
+    margin-top:.256rem;
+}
+#header .search{
+    height:1.28rem;
+    width:10.346rem;
+    margin: 0 auto;
+    background: #feda89;
+}
+#header .search input{
+    height:100%;
+    width:90%;
+    text-indent: 1em ;
+}
+#header .search .search_bg{
+    width: 10%;
+    height:100%;
+    background: #ccc;
+}
+#content{
+    font-size:.64rem
+}

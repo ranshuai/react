@@ -1,0 +1,266 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+    <meta content="yes" name="apple-mobile-web-app-capable"/>
+    <meta content="black" name="apple-mobile-web-app-status-bar-style"/>
+    <meta content="telephone=no" name="format-detection"/>
+    <title>Document</title>
+    <link rel="stylesheet" href="./css/index.css">
+    <script src="./apps/react.js"></script>
+    <script src="./apps/react-dom.js"></script>
+    <script src="./apps/browser.min.js"></script>
+    <script src="./apps/jquery-1.12.4.min.js"></script>
+    <!--<script src="./apps/vconsole.min.js"></script>-->
+
+</head>
+<body>
+<div id="header" class=".clearfix">
+    <em class="header_bg_l fl"></em>
+    <em class="header_bg_r fr"></em>
+    <div class="search clearfix">
+        <input type="text" placeholder="关键字123" class="fl">
+        <em class="search_bg fr"></em>
+    </div>
+</div>
+<div id="content">
+    <div id="example1"></div>
+    <div id="example2"></div>
+    <div id="example3"></div>
+    <div id="example4"></div>
+    <div id="example5"></div>
+    <div id="example6"></div>
+    <div id="example7"></div>
+    <div id="example8"></div>
+    <div id="example9"></div>
+    <div id="example10"></div>
+    <div id="example11"></div>
+</div>
+
+<script type="text/babel">
+    ReactDOM.render(
+            <h1>Hello world!
+                <p>ReactDOM.render将模板转为HTML语法，并插入指定的DOM节点</p>
+            </h1>,
+
+            document.getElementById('example1')
+    );
+
+    var names = ['Alice', 'Emily', 'Kate'];
+    ReactDOM.render(
+            <div>
+                {
+                    names.map(function (name) {
+                        return <div>Hello {name}!</div>
+                    })
+                }
+                <p>JSX语法如果遇到以&lt;开头的会按照HTML规则解析 以大括号开头的按js语法解析</p>
+            </div>,
+            document.getElementById('example2')
+    );
+
+    var arr = ['Hellow, world', '你好'];
+    ReactDOM.render(
+            <div>
+                {
+                    arr
+                }
+                <p>如果变量是个数组则会展现这个数组的所有成员</p>
+            </div>,
+            document.getElementById('example3')
+    );
+
+    //注册组件
+    var HellowMessage = React.createClass({
+        render: function () {
+            return <h1>hello {this.props.name} 组件类第一个字母必须大写，只能包含一个顶级的标签 使用props进行组件之间的数据通信</h1>
+        }
+    });
+    //调用组件
+    ReactDOM.render(
+            <HellowMessage name="John"/>,
+            document.getElementById('example4')
+    );
+
+    //验证组件实例的属性是否符合要求
+    var MyTitle = React.createClass({
+        propTypes: {
+            title: React.PropTypes.string.isRequired
+        },
+        render: function () {
+            return <div>{this.props.title}</div>
+        }
+    });
+    var data = '123';
+    ReactDOM.render(
+            <MyTitle title={data}/>,
+            document.getElementById('example5')
+    );
+    //设置属性的默认值
+    var DefaultProps = React.createClass({
+
+        getDefaultProps: function () {
+            return {
+                title: 'hello world如果传入 title 就是传入的value '
+            }
+        },
+
+        render: function () {
+            return <div>{this.props.title}</div>
+        }
+    });
+    ReactDOM.render(
+            <DefaultProps/>,
+            document.getElementById('example6')
+    );
+    ReactDOM.render(
+            <DefaultProps title="111111 "/>,
+            document.getElementById('example7')
+    );
+
+    var MyComponent = React.createClass({
+        getDefaultProps: function () {
+            return {
+                title: 'ref属性获取真实的懂dom节点'
+            }
+        },
+        handleClick: function () {
+            this.refs.myTextInput.focus();
+            console.log(this);
+        },
+        render: function () {
+            return (
+                    <div>
+                        <input type="text" ref="myTextInput"/>
+                        <input type="text" title={this.props.title}/>
+                        <input type="button" value="Focus the text input" onClick={this.handleClick}/>
+                    </div>
+            )
+        }
+    });
+    ReactDOM.render(
+            <MyComponent/>,
+            document.getElementById('example8')
+    );
+
+    var LikeButton = React.createClass({
+        getInitialState: function () {
+            return {liked: true, txt: "getInitialState方法用于定义初始状态"}
+        },
+        handleClick: function () {
+            this.setState({liked: !this.state.liked});
+        },
+        render: function () {
+            var text = this.state.liked ? 'like' : 'haven\'t liked';
+            return (
+                    <p onClick={this.handleClick}>
+                        you {text} this.click to toggle
+                    </p>
+            )
+        },
+    });
+
+    ReactDOM.render(
+            <LikeButton/>,
+            document.getElementById('example9')
+    );
+
+    var Hello = React.createClass({
+        getInitialState: function () {
+
+            return {
+                opacity: 1.0,
+                color: 'red'
+            }
+        },
+        componentDidMount: function () {
+            this.timer = setInterval(function () {
+                var opacity = this.state.opacity;
+                opacity -= .05;
+                if (opacity < 0.1) {
+                    opacity = 1;
+                }
+                this.setState({
+                    opacity: opacity
+                });
+            }.bind(this), 1000);
+        },
+        render: function () {
+            return (
+                    <div style={{opacity:this.state.opacity,color:this.state.color}}>
+                        Hello {this.props.name}
+                    </div>
+            );
+        }
+
+    });
+
+    ReactDOM.render(
+            <Hello name="world"/>,
+            document.getElementById('example10')
+    );
+
+    var UserGet = React.createClass({
+        getInitialState: function () {
+            return {
+                username: '',
+                age: '',
+                listData: ''
+            }
+        },
+        componentDidMount: function () {
+            $.get(this.props.source, function (result) {
+                console.log(this.context);
+                this.setState({
+                    username: result.username,
+                    age: result.age,
+                    listData: result.listdata
+                });
+
+            }.bind(this));
+        },
+        render: function () {
+            return (
+                    <div>
+                        姓名：{this.state.username} 年龄：{ this.state.age}
+
+                        {
+                            console.log(this.state.listData)
+                        }
+
+                        {
+                            React.Children.map(this.state.listData,function (name) {
+                                return <span>{name} <br/></span>
+                            })
+
+                        }
+
+                    </div>
+            )
+        }
+    });
+
+    ReactDOM.render(
+            <UserGet source="../data/test.json"/>,
+            document.getElementById('example11')
+    );
+
+
+</script>
+
+<script>
+
+    window.onresize = window.onload = function () {
+        document.documentElement.style.fontSize = document.documentElement.clientWidth / 16 + 'px';
+    };
+
+    var search_bg = document.getElementsByClassName('search_bg')[0];
+
+    search_bg.onclick = function () {
+        console.log(this);
+    }
+
+</script>
+</body>
+</html>
